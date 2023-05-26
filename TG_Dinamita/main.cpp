@@ -38,6 +38,8 @@ int GradosInt[20]={0},GradosExt[20]={0};
  	cout<<"#########################################################################################"<<endl;
 	cout<<"\tPrograma de proyecto final. Teoria de graficas\n"<<endl;
 	cout<<"\tEquipo: \tDinamita "<<endl;
+	cout<<"\tGrupo: \t2401"<<endl;
+	putchar('\n');
 	cout<<"\tMiembros:"<<endl;
 	cout<<"\tRamirez Maximo Abraham Santiago:"<<endl;
 	cout<<"\tGomez Vaca Jose Manuel"<<endl;
@@ -46,67 +48,91 @@ int GradosInt[20]={0},GradosExt[20]={0};
 	cout<<"#########################################################################################"<<endl;
 	putchar('\n');
 	cout<<"\tPara usar las sentencias las opciones son "<<endl;
-	cout<<"\tSI= S o s  y NO= N o n"<<endl;
+	cout<<"\tSI= 'S' o 's'  y NO= 'N' o 'n'"<<endl;
 	system("pause");
-	system("cls");
+	
 int n,e;
 char resp,opc;
 bool tipo,simple,conectada,balanceada;
 
-//recopilacion de dato de tabla 
+//recopilacion de datos
 do{
-	cout<<"Dime cuantos vertices hay en la grafica: ";
-	cin>>n;
-	cout<<"Dime el numero de lineas que hay: ";
-	cin>>e;
-	cout<<"La grafica es dirigida [s/n] ? ";
+	cout<<"\tIngresa el numero de vertices que tiene tu grafica : ";
+	cin>>n;//LECTURA VERTICES
+	cout<<"\tIngresa el numero de lineas que tiene tu grafica : ";
+	cin>>e;//LECTURA LINEAS
+	cout<<"\tLa grafica es dirigida [Si: S-s | No:N-n] ? ";
 	cin>>opc;
-	cout<<"Estan bien los datos que ingresaste [s/n]?  ";
+	cout<<"\tLos datos que ingresaste, son los correctos?  [Si: S-s | No:N-n]  ";
 	cin>>resp;
 }while(resp=='n' or resp=='N');
 
 	int sale[e],llega[e];
-	
+	cout<<"------------------------------------------------------------------------------"<<endl;
 	if(opc=='s' or opc=='S'){
-		cout<<"La grafica es una dirigida"<<endl;
+		cout<<"\tLa grafica ingresada es dirigida"<<endl;
 		tipo=true;
 	}else{
-		cout<<"la grafica es una no dirigida"<<endl;
+		cout<<"\tla grafica ingresada es no dirigida"<<endl;
 		tipo=false;
 	}
+	cout<<"------------------------------------------------------------------------------"<<endl;
+	putchar('\n');
 	char x;
+	cout<<"\tA continuacion, colocaras el nombre de tus vertices mediante caracteres alfabeticos ['A','b','c','D','E']"<<endl;
+	cout<<"\tSi colocas ['a'] y luego ['A'], se hace un bucle, y no se te determina que hay dos vertices"<<endl;
+	cout<<"\tEjemplo: De donde sale la linea 1?: A [digitas 'A'].      A donde llega la linea 1? b [digitas 'b']   "<<endl;
+	putchar('\n');
+	
+	
+	cout<<"------------------------------------------------------------------------------"<<endl;
+	putchar('\n');
 for(int i=1;i<=e;i++){
-	cout<<"De donde sale la linea "<<i<<" ? ";
+	cout<<"\tDe donde sale la linea "<<i<<" ?: ";//se da la identificación de los vértices de manera iterativa
 	cin>>x;
 	sale[i]=letra(x);
-	cout<<"En donde llega la linea "<<i<<" ? ";
+	cout<<"\tA donde llega la linea "<<i<<" ?: ";
 	cin>>x;
 	llega[i]=letra(x);
 	
 }
-
+putchar('\n');
+cout<<"--------------------------------------------------------------------"<<endl;
+putchar('\n');
 cout<<"\nTabla de lineas y sus direcciones "<<endl;
 	cout<<"Linea|\tsale|\tllega|"<<endl;
 	for(int i=1;i<=e;i++){
 	cout<<i<<"\t|"<<indice(sale[i])<<"|\t|";
 	cout<<indice(llega[i])<<"|"<<endl;
 }
+putchar('\n');
+cout<<"--------------------------------------------------------------------"<<endl;
 	double X[n],Y[n],largo=800,alto=600,radioNodo=15,radio=100,radioflecha=5,bucle=4;
 
-initwindow(1000,800);
+initwindow(1000,700);
+	outtextxy(10,115,"      Toca la pantalla y luego presiona espacio");
+    settextstyle(6,0,1);
 	
-	outtext("toca la pantalla y luego presiona espacio");
-	outtextxy(10,10,"Lineas son color blanco");
-	outtextxy(10,20,"vertices son de azul");
-	outtextxy(10,30,"bucles son rojos");
-	outtextxy(10,40,"las flechas para las graficas Dirigidas  ");
-	outtextxy(10,50,"podemos verlas como la parte pintada de amarillo "); 
+	outtextxy(10,10,"- Lineas son color blanco");
+	outtextxy(10,30,"- Los vertices son de color azul");
+	
+	if(opc=='s' or opc=='S'){
+	outtextxy(10,50,"- Los bucles son las lineas curveadas de color rojo sin flecha");
+	outtextxy(10,70,"- Las flechas para las Graficas Dirigidas, podemos verlas como la parte");
+	outtextxy(10,90,"  pintada de amarillo con triangulos "); 
+		
+	}
+	else{
+		outtextxy(10,50,"- Los bucles son las lineas curveadas de color rojo");
+	}
 	
 	for(int i=1;i<=n;i++){
 		X[i]=(largo/2)+radio*cos((2*pi*i)/n);
-		Y[i]=(alto/2)+radio*sin((2*pi*i)/n);
+		Y[i]=(alto/2)+radio*sin((2*pi*i)/n);  //realiza el circulo de vertices
 	}
-	//dibujar lineas y bucles 
+	
+	//se pinta lineas y bucles 
+	
 	for(int i=1;i<=e;i++){
 	
 	if(tipo==true){
@@ -114,26 +140,28 @@ initwindow(1000,800);
 			setcolor(4);
 		
 			arc(X[llega[i]],Y[llega[i]],150,10,(radioNodo+bucle));
-			
+			setcolor(15);
 		}
 		line(X[sale[i]],Y[sale[i]],X[llega[i]],Y[llega[i]]);
 	
 	}else{
 		if(sale[i]==llega[i]){
+			
 			setcolor(4);
 		arc(X[llega[i]],Y[llega[i]],150,10,(radioNodo+bucle));	
+		  setcolor(15);
 		}
 	line(X[sale[i]],Y[sale[i]],X[llega[i]],Y[llega[i]]);	
 	}	
 	}
-	//dibujar circulos
+	//dibujo de circulos
 	for(int i=1;i<=n;i++){
 		setcolor(1);
 		circle(X[i],Y[i],radioNodo);		
 	}
 	
 	
-//para poner la letras
+//Sirve para poner la letras
 
 setcolor(15);
 	for(int i=1;i<=n;i++){
@@ -191,12 +219,24 @@ setcolor(15);
 	int auxX,auxY;
 	for(int i=1;i<=e;i++){
 	if(tipo==true){
-		
+		setcolor(15);
 		auxX=((X[sale[i]]+X[llega[i]])/2);
 		auxY=((Y[sale[i]]+Y[llega[i]])/2);
-		setcolor(14);
+		
+		setcolor(14);//LINEA AMARILLA
 		line(auxX,auxY,X[llega[i]],Y[llega[i]]);
 		
+		
+		
+		if(!(sale[i]==llega[i])){
+			int vector_TRANGULO[6]={X[llega[i]],Y[llega[i]],  X[llega[i]]-5,Y[llega[i]]-5,  X[llega[i]]-5,Y[llega[i]]+5};
+		    setcolor(14);
+            setfillstyle(1,14); //tipo de relleno y color
+            fillpoly(3, vector_TRANGULO);
+				
+		}
+		
+            
 	
 			
 	}}
@@ -207,6 +247,10 @@ setcolor(15);
 	closegraph();
 	
 	system("pause");
+	cout<<"--------------------------------------------------------------------"<<endl;
+	putchar('\n'); 
+	cout<<"||||              MATRICES            ||||"<<endl;
+    putchar('\n');
 	Incidencia(llega,sale,e,n,tipo,matriz,matriz2);
 	
 	Adyacencia(llega,sale,e,n,tipo,matriz,matriz2);
@@ -214,13 +258,34 @@ setcolor(15);
 	Accesibilidad(matriz2,n,e,matriz3);
 	
 	system("pause");
+	
+	cout<<"--------------------------------------------------------------------"<<endl;
+	putchar('\n');
+	cout<<"||||         VERTICES Y LINEAS        ||||"<<endl;
+    putchar('\n');
+	
 	grados(matriz,e,n,tipo,llega,sale,Grados,GradosInt,GradosExt);
 
 	bucles(llega,sale,e);
 	
 	Lineasparalelas(llega,sale,e,tipo,V_paralelas,N_paralelas);
+	system("pause");
+	
+		cout<<"--------------------------------------------------------------------"<<endl;
+	putchar('\n');	
+	if(tipo==true){
+	
+	cout<<"||||   CLASIFICACION DE LA DIGRAFICA   ||||"<<endl;
+    putchar('\n'); 
+    
+	}
+	else{
 	
 	
+	cout<<"||||     CLASIFICACION DE LA GRAFICA    ||||"<<endl;
+    
+	 }
+    
 	simple=GraficaSimple(sale,llega,N_paralelas,e);
 	
 	
@@ -231,7 +296,9 @@ setcolor(15);
 
 	
 	GraficaRegular(Grados,GradosInt,GradosExt,tipo,n);
-system("pause");
+    system("pause");
+
+
 	
 	if(tipo==false){
 	arbol(simple,conectada,e,n);
@@ -274,12 +341,12 @@ void Euleriana(bool conectada,int Grados[],bool balanceada,int n,bool tipo){
 				i+=1;
 			}
 			if(gradopar==true){
-		cout<<"la grafica es conectada y los grados son par, por lo tanto es Euleriana"<<endl;
+		cout<<"La grafica es conectada y los grados son par, por lo tanto es Euleriana"<<endl;
 			}else{
-				cout<<"la grafica no es Euleriana"<<endl;
+				cout<<"La grafica no es Euleriana"<<endl;
 			}
 		}else{
-			cout<<"la grafica no es conectada por lo tanto no puede ser Euleriana"<<endl;
+			cout<<"La grafica no es conectada, por lo tanto no puede ser Euleriana"<<endl;
 		}
 	}
 	cout<<endl;
@@ -340,21 +407,21 @@ z=64+y;
 return z;	
 }
 
-
+//Función que transforma las letras en enteros usando ASCII 
 int letra(char x){
 	int ascii;
 	ascii=x;
 	if(ascii>=65&&ascii<=90){
-		//este if es para las letras Mayusculas
+		//e para las letras Mayusculas
 		return (ascii-64);
 	}else{
-		//este if tiene un rango de 97 a 122, y se usa para letras minusculas.
+		//este se usa para letras minusculas.
 		if(ascii>=97&&ascii<=122){
 			return (ascii-96);
 		}
 }
 }
-//checar esta parte con la profe
+
 
 void GraficaSimetrica(int matriz2[][20],int n,int N_p,bool tipo){
 		bool simetrica=true;int i,j;
@@ -390,6 +457,7 @@ void arbol(bool simple,bool conectada,int e,int n){
 		cout<<"La grafica es un arbol"<<endl;
 	}else{
 		cout<<"La grafica no es un arbol"<<endl;
+		
 	}
 }
 
@@ -472,7 +540,7 @@ cout<<endl;
 		if(complet==true and bucles==true and N_paralelas==0){
 			cout<<"La grafica es completa con bucles"<<endl;
 		}else{
-		cout<<"la grafica no es completa"<<endl;
+		cout<<"La grafica no es completa"<<endl;
 		}
 	}
 }
@@ -565,7 +633,8 @@ bool GraficaSimple(int sale[],int llega[],int N_paralelas,int e){
 
 void lineas_en_serie(int Grados[],int sale[],int llega[],int V_paralelas[],int n,int e,bool tipo){
 	int linea1=0,linea2=0;bool encontrel1=false,encontrel2=false;
-cout<<endl;
+	
+    
 	if(tipo==true){
 		cout<<"Las graficas dirigidas no tienen lineas en serie "<<endl;
 	}else{
@@ -711,8 +780,7 @@ void grados(int matriz[20][20],int e,int n,bool tipo,int llega[],int sale[],int 
 				cout<<"|"<<indice(i)<<"   |\t  "<<Grado_int[i]<<"  \t|\t"<<grado_ext[i]<<"\t|"<<endl;
 				}
 				
-				/*cout<<"el grado interno del nodo "<<indice(i)<<" es "<<Grado_int[i]<<endl;
-				cout<<"el grado externo del nodo "<<indice(i)<<" es "<<grado_ext[i]<<endl;*/
+				
 			}else{
 				if(i==1){
 				cout<<"|nodo|Grado|"<<endl;	
@@ -742,7 +810,14 @@ if(tipo==true){
 		cout<<"|"<<indice(i)<<"   |"<<"   es inicial    |"<<endl;
 			
 		}else{
+		 if(Grado_int[i]!=0 and grado_ext[i]==0){
 		cout<<"|"<<indice(i)<<"   |"<<"   es final      |"<<endl;
+		
+		 }
+		 else{
+		 	cout<<"|"<<indice(i)<<"   |"<<"No final/No inicial|"<<endl;
+		 }
+		
 			
 		}
 	}
@@ -788,7 +863,7 @@ void Incidencia(int llega[],int sale[],int e,int n,bool tipo,int matriz[20][20],
 		}	
 	}
 	cout<<endl;
-	cout<<"Si sale un simbolo de ? significa que es un +- (masmenos)"<<endl;
+	
 	cout<<"| Matriz de Incidencia |"<<endl;
 	cout<<"___________________________"<<endl;
 	cout<<"   |";
@@ -870,7 +945,7 @@ poten[i]=(int*)malloc(N*sizeof(int));
 		MG[i][j]=poten[i][j];
 		}	}
 	
-	//checar esta parte para hacer la multiplicacion de matrices
+	
 	int suma,producto[N][N];
 	
 	for(int i=1;i<=N;i++){for(int j=1;j<=N;j++){producto[i][j]=0;}}
